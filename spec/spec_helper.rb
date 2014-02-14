@@ -25,7 +25,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    
+    ActiveRecord::Base.connection.execute("TRUNCATE TABLE `test_users`")
   end
 
 end
