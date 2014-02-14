@@ -1,6 +1,8 @@
 # Demoji
 
-TODO: Write a gem description
+MySQL configured with utf-8 encoding blows up when trying to save text rows containing emojis, etc., to address this, Demoji rescues from that specific exception and replaces the culprit chars with empty spaces.
+
+This is a workaround until Rails adds support for UTF8MB4 in migrations, schema, etc.
 
 ## Installation
 
@@ -18,7 +20,11 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Write an initializer in: `config/initializers/demoji.rb`:
+
+```ruby
+ActiveRecord::Base.send :include, Demoji
+```
 
 ## Contributing
 

@@ -21,10 +21,7 @@ module Demoji
 
       _rescued_counter += 1
 
-      if _rescued_counter > 1
-        Rails.logger.error "Tried to utf8 rescue once for #{self.inspect} but failed"
-        raise ex
-      end
+      raise ex if _rescued_counter > 1
 
       _fix_utf8_attributes
       retry
