@@ -5,7 +5,6 @@ describe TestUser do
   it "doesn't blow up when trying to save emoji" do
     u = TestUser.new
     u.name = "😊"
-    debugger
     expect{ u.save }.to_not raise_error
     expect(u).to be_persisted
     expect(u.reload.name.strip).to eql ""
