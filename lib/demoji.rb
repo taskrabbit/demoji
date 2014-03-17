@@ -41,7 +41,7 @@ module Demoji
         # for instead of split and joins for perf
         for i in (0...str.length)
           char = str[i]
-          char = 32.chr if char.ord >= 10000
+          char = 32.chr if char.ord >= 65535
           out_str << char
         end
 
