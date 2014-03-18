@@ -47,7 +47,4 @@ module Demoji
 
       end
     end
-
-  # /private
-
 end

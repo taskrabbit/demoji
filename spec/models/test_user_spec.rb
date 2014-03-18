@@ -36,4 +36,12 @@ describe TestUser do
     expect(u.reload.name).to eql "üç£"
   end
 
+   it "doesn't remove valid 3-byte utf8 chars" do
+    u = TestUser.new
+    u.name = "✔ ✫ 𐌎 abc"
+    expect { u.save }.to_not raise_error
+    expect(u).to be_persisted
+    expect(u.reload.name).to eql "✔ ✫   abc"
+  end
+
 end
