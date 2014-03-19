@@ -33,7 +33,7 @@ describe TestUser do
     u.name = "üç£"
     expect { u.save }.to_not raise_error
     expect(u).to be_persisted
-    expect(u.reload.name).to eql "üç£"
+    expect(u.reload.name.strip).to eql "üç£"
   end
 
    it "doesn't remove valid 3-byte utf8 chars" do
@@ -41,7 +41,6 @@ describe TestUser do
     u.name = "✔ ✫ 𐌎 abc"
     expect { u.save }.to_not raise_error
     expect(u).to be_persisted
-    expect(u.reload.name).to eql "✔ ✫   abc"
+    expect(u.reload.name.strip).to eql "✔ ✫   abc"
   end
-
 end
