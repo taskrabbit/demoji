@@ -43,4 +43,12 @@ describe TestUser do
     expect(u).to be_persisted
     expect(u.reload.name.strip).to eql "✔ ✫   abc"
   end
+
+   it "doesn't remove valid 4-byte utf8 chars" do
+    u = TestUser.new
+    u.name = "✔ ✫ 𠀋 abc"
+    expect { u.save }.to_not raise_error
+    expect(u).to be_persisted
+    expect(u.reload.name.strip).to eql "✔ ✫   abc"
+  end
 end
