@@ -21,7 +21,10 @@ RSpec.configure do |config|
     ActiveRecord::Base.establish_connection db_config
 
     ActiveRecord::Base.connection.execute("DROP TABLE IF EXISTS `test_users`")
-    ActiveRecord::Base.connection.execute("CREATE TABLE IF NOT EXISTS `test_users` (`id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(255) NOT NULL, PRIMARY KEY (`id`)) DEFAULT CHARSET=utf8;")
+    ActiveRecord::Base.connection.execute(
+      "CREATE TABLE IF NOT EXISTS `test_users` (`id` int(11) NOT NULL AUTO_INCREMENT, " \
+      "`name` varchar(255) NOT NULL, `cart` blob, PRIMARY KEY (`id`)) DEFAULT CHARSET=utf8;"
+    )
   end
 
   config.before(:each) do

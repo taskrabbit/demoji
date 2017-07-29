@@ -30,7 +30,7 @@ module Demoji
 
     def _fix_utf8_attributes
       self.attributes.each do |k, v|
-        next if v.blank? || !v.is_a?(String)
+        next if v.blank? || !v.is_a?(String) || (self.column_for_attribute(k).type == :binary)
         self.send "#{k}=", _fix_chars(v)
       end
     end

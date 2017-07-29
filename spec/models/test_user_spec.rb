@@ -32,6 +32,17 @@ describe TestUser do
     expect(u.reload.name.strip).to eql "Peter Perez"
   end
 
+  it "fixes non-binary columns but leaves binary columns alone" do
+    u = TestUser.new
+    u.name = "Peter Perez\n#{ord_to_str(65554)}"
+    cart = "some binary data #{ord_to_str(65554)}"
+    u.cart = cart
+    expect{ u.save }.to_not raise_error
+    expect(u).to be_persisted
+    expect(u.reload.name.strip).to eql "Peter Perez"
+    expect(u.reload.cart).to eql "some binary data \xF0\x90\x80\x92"
+  end
+
   it "doesn't mess up with valid language specific chars" do
     u = TestUser.new
     u.name = "#{ord_to_str(252)}"
