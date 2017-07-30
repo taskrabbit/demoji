@@ -2,9 +2,13 @@ require 'spec_helper'
 
 describe TestUser do
 
+  def ord_to_str(ord)
+    ord.chr("UTF-8")
+  end
+
   it "doesn't blow up when trying to save emoji" do
     u = TestUser.new
-    u.name = "😊"
+    u.name = ord_to_str(65554)
     expect{ u.save }.to_not raise_error
     expect(u).to be_persisted
     expect(u.reload.name.strip).to eql ""
@@ -15,14 +19,14 @@ describe TestUser do
     TestUser.any_instance.should_receive(:_fix_utf8_attributes).once
 
     u = TestUser.new
-    u.name = "😊"
+    u.name = ord_to_str(65554)
     expect{ u.save }.to raise_error
     expect(u).to_not be_persisted
   end
 
   it "leaves other chars alone" do
     u = TestUser.new
-    u.name = "Peter Perez\n😊"
+    u.name = "Peter Perez\n#{ord_to_str(65554)}"
     expect{ u.save }.to_not raise_error
     expect(u).to be_persisted
     expect(u.reload.name.strip).to eql "Peter Perez"
@@ -30,25 +34,25 @@ describe TestUser do
 
   it "doesn't mess up with valid language specific chars" do
     u = TestUser.new
-    u.name = "üç£"
+    u.name = "#{ord_to_str(252)}"
     expect { u.save }.to_not raise_error
     expect(u).to be_persisted
-    expect(u.reload.name.strip).to eql "üç£"
+    expect(u.reload.name.strip).to eql "#{ord_to_str(252)}"
   end
 
    it "doesn't remove valid 3-byte utf8 chars" do
     u = TestUser.new
-    u.name = "✔ ✫ 𐌎 abc"
+    u.name = "#{ord_to_str(10004)} #{ord_to_str(10027)} #{ord_to_str(66318)} abc"
     expect { u.save }.to_not raise_error
     expect(u).to be_persisted
-    expect(u.reload.name.strip).to eql "✔ ✫   abc"
+    expect(u.reload.name.strip).to eql "#{ord_to_str(10004)} #{ord_to_str(10027)}   abc"
   end
 
    it "doesn't remove valid 4-byte utf8 chars" do
     u = TestUser.new
-    u.name = "✔ ✫ 𠀋 abc"
+    u.name = "#{ord_to_str(10004)} #{ord_to_str(10027)} #{ord_to_str(131083)} abc"
     expect { u.save }.to_not raise_error
     expect(u).to be_persisted
-    expect(u.reload.name.strip).to eql "✔ ✫   abc"
+    expect(u.reload.name.strip).to eql "#{ord_to_str(10004)} #{ord_to_str(10027)}   abc"
   end
 end
