@@ -15,12 +15,12 @@ describe TestUser do
   end
 
   it "only tries to fix once" do
-    TestUser.any_instance.stub(:create).and_raise(ActiveRecord::StatementInvalid.new("Mysql2::Error: Incorrect string value: things!"))
-    TestUser.any_instance.should_receive(:_fix_utf8_attributes).once
+    allow_any_instance_of(TestUser).to receive(:create).and_raise(ActiveRecord::StatementInvalid.new("Mysql2::Error: Incorrect string value: things!"))
+    expect_any_instance_of(TestUser).to receive(:_fix_utf8_attributes).once
 
     u = TestUser.new
     u.name = ord_to_str(65554)
-    expect{ u.save }.to raise_error
+    expect{ u.save }.to raise_error(ActiveRecord::StatementInvalid)
     expect(u).to_not be_persisted
   end
 
