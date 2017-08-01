@@ -1,4 +1,4 @@
-![Build Status](https://travis-ci.org/taskrabbit/demoji.svg?branch=master)](https://travis-ci.org/taskrabbit/demoji)
+![](https://travis-ci.org/taskrabbit/demoji.svg?branch=master)
 
 # Demoji
 
