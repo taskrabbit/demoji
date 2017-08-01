@@ -40,7 +40,7 @@ describe TestUser do
     expect{ u.save }.to_not raise_error
     expect(u).to be_persisted
     expect(u.reload.name.strip).to eql "Peter Perez"
-    expect(u.reload.cart).to eql "some binary data \xF0\x90\x80\x92"
+    expect(u.reload.cart).to eql "some binary data #{ord_to_str(65554)}".force_encoding("ASCII-8BIT")
   end
 
   it "doesn't mess up with valid language specific chars" do
