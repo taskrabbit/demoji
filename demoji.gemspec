@@ -22,4 +22,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
   spec.add_development_dependency "activesupport"
   spec.add_development_dependency "activerecord"
+  spec.add_development_dependency "appraisal"
 end

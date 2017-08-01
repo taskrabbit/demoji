@@ -6,6 +6,17 @@ rvm:
   - 2.2.7
   - 2.3.4
   - 2.4.1
+gemfile:
+  - gemfiles/rails_5.gemfile
+  - gemfiles/rails_4.gemfile
+matrix:
+  exclude:
+    - rvm: 1.9.3-p551
+      gemfile: gemfiles/rails_5.gemfile
+    - rvm: 2.0.0-p648
+      gemfile: gemfiles/rails_5.gemfile
+    - rvm: 2.1.9
+      gemfile: gemfiles/rails_5.gemfile
 before_install:
   - mysql -e 'CREATE DATABASE demoji_test;'
 before_script:
