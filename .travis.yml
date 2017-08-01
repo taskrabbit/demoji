@@ -1,0 +1,13 @@
+language: ruby
+rvm:
+  - 1.9.3-p551
+  - 2.0.0-p648
+  - 2.1.9
+  - 2.2.7
+  - 2.3.4
+  - 2.4.1
+before_install:
+  - mysql -e 'CREATE DATABASE demoji_test;'
+before_script:
+  - cp spec/config/database.example.yml spec/config/database.yml
+sudo: false
