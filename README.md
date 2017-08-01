@@ -1,3 +1,5 @@
+![Build Status](https://travis-ci.org/taskrabbit/demoji.svg?branch=master)](https://travis-ci.org/taskrabbit/demoji)
+
 # Demoji
 
 MySQL configured with utf-8 encoding blows up when trying to save text rows containing emojis, etc., to address this, Demoji rescues from that specific exception and replaces the culprit chars with empty spaces.
