@@ -58,12 +58,4 @@ describe TestUser do
     expect(u).to be_persisted
     expect(u.reload.name.strip).to eql "#{ord_to_str(10004)} #{ord_to_str(10027)}   abc"
   end
-
-   it "doesn't remove valid 4-byte utf8 chars" do
-    u = TestUser.new
-    u.name = "#{ord_to_str(10004)} #{ord_to_str(10027)} #{ord_to_str(131083)} abc"
-    expect { u.save }.to_not raise_error
-    expect(u).to be_persisted
-    expect(u.reload.name.strip).to eql "#{ord_to_str(10004)} #{ord_to_str(10027)}   abc"
-  end
 end
