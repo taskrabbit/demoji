@@ -51,19 +51,19 @@ describe TestUser do
     expect(u.reload.name.strip).to eql "#{ord_to_str(252)}"
   end
 
-   it "doesn't remove valid 3-byte utf8 chars" do
+  it "doesn't remove valid 3-byte utf8 chars" do
     u = TestUser.new
-    u.name = "#{ord_to_str(10004)} #{ord_to_str(10027)} #{ord_to_str(66318)} abc"
+    u.name = "#{ord_to_str(10004)} #{ord_to_str(10027)} \xE2\x9C\x8C\xEF\xB8\x8F #{ord_to_str(66318)} abc"
     expect { u.save }.to_not raise_error
     expect(u).to be_persisted
-    expect(u.reload.name.strip).to eql "#{ord_to_str(10004)} #{ord_to_str(10027)}   abc"
+    expect(u.reload.name.strip).to eql "#{ord_to_str(10004)} #{ord_to_str(10027)} \xE2\x9C\x8C\xEF\xB8\x8F   abc"
   end
 
-   it "doesn't remove valid 4-byte utf8 chars" do
+  it "removes emoji modifier chars" do
     u = TestUser.new
-    u.name = "#{ord_to_str(10004)} #{ord_to_str(10027)} #{ord_to_str(131083)} abc"
+    u.name = "#{ord_to_str(10004)} #{ord_to_str(10027)} \xE2\x9C\x8C\xF0\x9F\x8F\xBE #{ord_to_str(66318)} abc"
     expect { u.save }.to_not raise_error
     expect(u).to be_persisted
-    expect(u.reload.name.strip).to eql "#{ord_to_str(10004)} #{ord_to_str(10027)}   abc"
+    expect(u.reload.name.strip).to eql "#{ord_to_str(10004)} #{ord_to_str(10027)} #{ord_to_str(9996)}    abc"
   end
 end
